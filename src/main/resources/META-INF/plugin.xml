@@ -8,15 +8,12 @@
     <name>HuaweiCloudTasks</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="support@yourcompany.com" url="https://www.yourcompany.com">YourCompany</vendor>
+    <vendor email="guoyx@itshixun.com" url="https://www.eduplus.net">itshixun</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
-    <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
-  ]]></description>
+    <description>获取华为云的任务，并展示任务内容和细节，支持编辑和更新任务状态，并提交变更，需要提供华为云访问密钥</description>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
@@ -25,6 +22,18 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
+        <projectConfigurable groupId="com.qst.extensions.huaweicloudtasks.config.HwTasksConfigurable"
+                             instance="com.qst.extensions.huaweicloudtasks.config.HwTasksConfiguration"
+                             displayName="HwTasksConfiguration"/>
 
+        <toolWindow id="HwTasks" factoryClass="com.qst.extensions.huaweicloudtasks.window.TaskListWindowFactory"
+                    anchor="right" icon="/img/hw.svg"></toolWindow>
     </extensions>
+    <actions>
+
+        <action id="ShowHwTasks" class="com.qst.extensions.huaweicloudtasks.ShowHwTasks" text="ShowHwTasks"
+                description="ShowHwTasks">
+            <add-to-group group-id="WindowMenu" anchor="first"/>
+        </action>
+    </actions>
 </idea-plugin>

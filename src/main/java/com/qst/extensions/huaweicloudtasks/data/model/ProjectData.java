@@ -1,4 +1,4 @@
-package com.qst.extensions.huaweicloudtasks.data;
+package com.qst.extensions.huaweicloudtasks.data.model;
 
 public class ProjectData {
 private  String project_id;

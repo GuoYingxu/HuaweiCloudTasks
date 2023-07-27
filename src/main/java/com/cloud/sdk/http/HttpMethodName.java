@@ -1,2 +1,11 @@
-package com.cloud.sdk.http;public class HttpMethodName {
+package com.cloud.sdk.http;
+
+public enum HttpMethodName {
+    GET,
+    POST,
+    PUT,
+    DELETE,
+    HEAD,
+    PATCH,
+    OPTIONS;
 }

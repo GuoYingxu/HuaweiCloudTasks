@@ -1,31 +1,62 @@
-package com.qst.extensions.huaweicloudtasks.data;
+package com.qst.extensions.huaweicloudtasks.data.model;
+
+import java.math.BigInteger;
 
 public class TaskData {
-    private int id;
-    private String title;
-    private int projectNumId;
+    private BigInteger id;
+    private String name;
+    private TaskStatus status; // 类型 1 新建 2 进行中 3 已解决
+    private TaskTracker tracker; // 类型 2 Task 3 bug
 
-    public int getId() {
+    private IterationData iteration; // 迭代
+
+    private AssignedUserData assigned_user; // 负责人
+
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getProjectNumId() {
-        return projectNumId;
+    public TaskStatus getStatus() {
+        return status;
     }
 
-    public void setProjectNumId(int projectNumId) {
-        this.projectNumId = projectNumId;
+    public void setStatus(TaskStatus status) {
+        this.status = status;
+    }
+
+    public TaskTracker getTracker() {
+        return tracker;
+    }
+
+    public void setTracker(TaskTracker tracker) {
+        this.tracker = tracker;
+    }
+
+    public IterationData getIteration() {
+        return iteration;
+    }
+
+    public void setIteration(IterationData iteration) {
+        this.iteration = iteration;
+    }
+
+    public AssignedUserData getAssigned_user() {
+        return assigned_user;
+    }
+
+    public void setAssigned_user(AssignedUserData assigned_user) {
+        this.assigned_user = assigned_user;
     }
 }
