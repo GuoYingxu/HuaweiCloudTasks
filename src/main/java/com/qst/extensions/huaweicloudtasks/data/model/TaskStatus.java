@@ -19,4 +19,8 @@ public class TaskStatus {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String  toString() {
+    	return name;
+    }
 }

@@ -14,7 +14,7 @@ public class ShowHwTasks extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         // TODO: insert action logic here
-        DataUtil.getProjectsBySdk();
+//        DataUtil.getProjects();
 //        Project project = e.getData(PlatformDataKeys.PROJECT);
 //
 //        PsiFile psiFile = e.getData(CommonDataKeys.PSI_FILE);

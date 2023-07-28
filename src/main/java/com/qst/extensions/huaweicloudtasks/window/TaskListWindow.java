@@ -13,47 +13,56 @@ public class TaskListWindow {
 
     private JComboBox projectList;
     private JPanel taskPanel;
-    private JList taskList;
-    private JButton refreshBtn;
+    private JButton refreshProjectBtn;
+    private JButton refreshTaskBtn;
+    private JTable tasklistTable;
 
     public  TaskListWindow(Project project, ToolWindow toolWindow){
-        refreshBtn.addActionListener(new ActionListener() {
+        refreshProjectBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DataUtil.getProjectsBySdk();
-
-                projectList.setModel(new DefaultComboBoxModel(DataCenter.projectDataList.stream().map(projectData -> projectData.getProjectName()).toArray()));
+                DataUtil.getProjects();
+                projectList.setModel(new DefaultComboBoxModel(DataCenter.projectDataList.stream().map(projectData -> projectData.getProject_name()).toArray()));
             }
         });
         projectList.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String command = e.getActionCommand();
+                System.out.println(command);
                 if(command.equals("comboBoxChanged")) {
                     String projectName = (String) projectList.getSelectedItem();
                     System.out.printf("projectName: %s\n", projectName);
-                    String projectId = DataCenter.projectDataList.stream().filter(projectData -> projectData.getProjectName().equals(projectName)).findFirst().get().getProjectId();
+                    String projectId = DataCenter.projectDataList.stream().filter(projectData -> projectData.getProject_name().equals(projectName)).findFirst().get().getProject_id();
                     System.out.printf("projectId: %s\n", projectId);
                     DataUtil.getTasks(projectId);
                     System.out.printf("taskDataList: %s\n", DataCenter.taskDataList.size());
-                    taskList.setModel(new DefaultComboBoxModel(DataCenter.taskDataList.stream().map(taskData -> taskData.getName()).toArray()));
+                    tasklistTable.setModel(DataCenter.taskTableModel);
                 }
             }
         });
+
+        // 刷新task
+        refreshTaskBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String projectName = (String) projectList.getSelectedItem();
+                String projectId = DataCenter.projectDataList.stream().filter(projectData -> projectData.getProject_name().equals(projectName)).findFirst().get().getProject_id();
+                DataUtil.getTasks(projectId);
+                tasklistTable.setModel(DataCenter.taskTableModel);
+
+            }
+        });
+
+
         init();
     }
     public JPanel getContentPanel() {
         return taskPanel;
     }
     public void init() {
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        listModel.addElement("item1");
-        listModel.addElement("item2");
-        listModel.addElement("item3");
-        taskList.setModel(listModel);
+        DataUtil.getProjects();
 
-        projectList.setModel(new DefaultComboBoxModel(new String[]{"project1", "project2", "project3"}));
-
-
+        projectList.setModel(new DefaultComboBoxModel(DataCenter.projectDataList.stream().map(projectData -> projectData.getProject_name()).toArray()));
     }
 }

@@ -22,12 +22,8 @@ intellij {
 }
 dependencies {
     implementation("com.alibaba:fastjson:2.0.21");
-    implementation("com.huaweicloud.sdk:huaweicloud-sdk-core:3.1.49"){
-        exclude(group = "org.slf4j", module = "slf4j-log4j")
-    }
-    implementation("com.huaweicloud.sdk:huaweicloud-sdk-projectman:3.1.49"){
-        exclude(group = "org.slf4j", module = "slf4j-log4j")
-    }
+    implementation("org.openeuler:bgmprovider:1.0.4");
+
 }
 tasks {
     // Set the JVM compatibility versions
