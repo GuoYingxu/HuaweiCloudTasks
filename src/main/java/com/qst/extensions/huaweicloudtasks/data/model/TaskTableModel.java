@@ -9,7 +9,7 @@ public class TaskTableModel  extends AbstractTableModel {
             "任务ID",
             "任务描述", "类型", "状态"
     };
-    public Object[][] data = { };
+    public Object[][] data = {} ;
     public TaskTableModel(){
     }
 
@@ -49,6 +49,7 @@ public class TaskTableModel  extends AbstractTableModel {
     }
 
     public void  accessTaskData(List<TaskData> dataList) {
+        data = new  Object[dataList.size()][4];
         for (int i = 0; i < dataList.size(); i++) {
             this.setValueAt(dataList.get(i).getId(), i,0);
             this.setValueAt(dataList.get(i).getName(), i,1);

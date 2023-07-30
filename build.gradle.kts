@@ -23,7 +23,7 @@ intellij {
 dependencies {
     implementation("com.alibaba:fastjson:2.0.21");
     implementation("org.openeuler:bgmprovider:1.0.4");
-
+    implementation("com.formdev:flatlaf-extras:3.0");
 }
 tasks {
     // Set the JVM compatibility versions

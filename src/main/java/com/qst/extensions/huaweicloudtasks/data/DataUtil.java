@@ -6,6 +6,8 @@ import com.cloud.apigateway.sdk.utils.Request;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.ui.Messages;
+import com.qst.extensions.huaweicloudtasks.data.model.TaskData;
+import com.qst.extensions.huaweicloudtasks.data.model.TaskInfo;
 import com.qst.extensions.huaweicloudtasks.service.HwTaskConfigService;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -13,6 +15,8 @@ import org.apache.http.client.methods.HttpRequestBase;
 import com.qst.extensions.huaweicloudtasks.config.HwTasksConfiguration;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
+
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -70,6 +74,7 @@ public class DataUtil {
 
             }
         } catch (Exception e) {
+            System.out.printf("error:"+ e.getMessage());
             Messages.showMessageDialog("发送请求发生错误", "错误", Messages.getErrorIcon());
         } finally {
             if(client != null) {
@@ -132,5 +137,50 @@ public class DataUtil {
                 }
             }
         }
+    }
+    public static TaskInfo getTaskInfo(String projectId, TaskData value) {
+        Request request = new Request();
+        try {
+            DataUtil.hwAccesskey = hwTaskConfigService.get(HwTasksConfiguration.HW_ACCESS_KEY, "");
+            DataUtil.hwSecretKey = hwTaskConfigService.get(HwTasksConfiguration.HW_SECRET_KEY, "");
+            if (DataUtil.hwAccesskey.isEmpty() || DataUtil.hwSecretKey.isEmpty()) {
+                Messages.showMessageDialog("请检查插件配置", "错误", Messages.getErrorIcon());
+                return null;
+            }
+            request.setKey(hwAccesskey);
+            request.setSecret(hwSecretKey);
+            request.setUrl("https://projectman-ext.cn-north-1.myhuaweicloud.com/v4/projects/"+projectId+"/issues/"+value.getId());
+            request.setMethod("GET");
+            request.addHeader("Host","projectman-ext.cn-north-1.myhuaweicloud.com");
+            request.addHeader("X-Domain-Id","ce5fb093a1824ffb89d1efdfe8838f2b");
+        }catch (Exception e) {
+            Messages.showMessageDialog("发送请求发生错误", "错误", Messages.getErrorIcon());
+            return null;
+        }
+
+        CloseableHttpClient client = null;
+        try {
+            HttpRequestBase signedRequest= Client.sign(request, Constant.SIGNATURE_ALGORITHM_SDK_HMAC_SHA256);
+            client = (CloseableHttpClient) SSLCipherSuiteUtil.createHttpClient(Constant.INTERNATIONAL_PROTOCOL);
+            HttpResponse response = client.execute(signedRequest);
+            HttpEntity res = response.getEntity();
+            if(res!= null) {
+                String result = EntityUtils.toString(res, "UTF-8");
+                TaskInfo info = JSON.parseObject(result, TaskInfo.class);
+                return info;
+            }
+        } catch (Exception e) {
+            System.out.printf("error:"+ e.getMessage());
+            Messages.showMessageDialog("发送请求发生错误", "错误", Messages.getErrorIcon());
+        } finally {
+            if(client != null) {
+                try {
+                    client.close();
+                } catch (Exception e) {
+                    Messages.showMessageDialog("关闭连接发生错误", "错误", Messages.getErrorIcon());
+                }
+            }
+        }
+        return null;
     }
 }

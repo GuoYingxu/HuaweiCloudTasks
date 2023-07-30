@@ -3,6 +3,7 @@ package com.qst.extensions.huaweicloudtasks.data;
 //import com.huaweicloud.sdk.projectman.v4.model.ListProjectsV4ResponseBodyProjects;
 import com.qst.extensions.huaweicloudtasks.data.model.ProjectData;
 import com.qst.extensions.huaweicloudtasks.data.model.TaskData;
+import com.qst.extensions.huaweicloudtasks.data.model.TaskListModel;
 import com.qst.extensions.huaweicloudtasks.data.model.TaskTableModel;
 
 import java.util.ArrayList;
