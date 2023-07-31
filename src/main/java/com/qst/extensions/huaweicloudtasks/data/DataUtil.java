@@ -16,6 +16,7 @@ import com.qst.extensions.huaweicloudtasks.config.HwTasksConfiguration;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import javax.xml.crypto.Data;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class DataUtil {
     public static String hwAccesskey;
     public static String hwSecretKey;
     public static String hwProjectIds;
+    public static String hwProjectAssignedUser;
 
     public static final HwTaskConfigService hwTaskConfigService = ApplicationManager.getApplication().getService(HwTaskConfigService.class);
 
@@ -91,6 +93,7 @@ public class DataUtil {
         try {
             DataUtil.hwAccesskey = hwTaskConfigService.get(HwTasksConfiguration.HW_ACCESS_KEY, "");
             DataUtil.hwSecretKey = hwTaskConfigService.get(HwTasksConfiguration.HW_SECRET_KEY, "");
+            DataUtil.hwProjectAssignedUser = hwTaskConfigService.get(HwTasksConfiguration.HW_PROJECT_ASSIGNED_USER, "");
             if (DataUtil.hwAccesskey.isEmpty() || DataUtil.hwSecretKey.isEmpty()) {
                 Messages.showMessageDialog("请检查插件配置", "错误", Messages.getErrorIcon());
                 return;
@@ -104,6 +107,10 @@ public class DataUtil {
             map.put("limit", 100);
             map.put("status_ids", new int[]{1,2});
             map.put("tracker_ids",new int[]{2,3});
+
+            if(DataUtil.hwProjectAssignedUser.length()>0) {
+                map.put("assigned_ids", DataUtil.hwProjectAssignedUser.split(","));
+            }
             String body = JSON.toJSONString(map);
             request.setBody(body);
             request.addHeader("Host","projectman-ext.cn-north-1.myhuaweicloud.com");
